@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RupayaShare - Split Expenses with UPI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="description" content="Split group expenses easily with UPI payments and QR codes">
+    <meta name="keywords" content="expense splitting, UPI payments, group expenses, QR codes, money sharing">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen">
+        <div class="splash-logo">
+            <img src="image/ChatGPT_Image_Jul_27__2025__01_04_04_PM-removebg-preview.png" alt="RupayaShare Logo">
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="image/ChatGPT_Image_Jul_27__2025__01_04_04_PM-removebg-preview.png" alt="RupayaShare Logo" class="logo-img">
+                    <h1 id="app-title">RupayaShare</h1>
+                </div>
+                <p class="tagline">Split group expenses with instant UPI payments</p>
+                <div class="header-features">
+                    <span class="feature-badge">📱 QR Codes</span>
+                    <span class="feature-badge">💳 UPI Integration</span>
+                    <span class="feature-badge">🧮 Smart Calculations</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Group Setup Section -->
+            <section class="card setup-section">
+                <div class="card-header">
+                    <h2><span class="icon">📝</span> Setup Group</h2>
+                    <p class="section-subtitle">Create a new group to start splitting expenses</p>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="group-name">
+                            <span class="icon">🏷️</span>
+                            Group Name (Optional)
+                        </label>
+                        <input type="text" id="group-name" placeholder="e.g., Weekend Trip, Dinner Party, Movie Night" maxlength="50">
+                        <small class="form-help">Give your group a memorable name</small>
+                    </div>
+                    <div class="form-actions">
+                        <button id="create-group-btn" class="btn btn-primary btn-large">
+                            <span class="icon">🚀</span>
+                            Create Group
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Group Info -->
+            <div id="group-info" class="card group-info-card" style="display: none;">
+                <div class="card-header">
+                    <h2><span class="icon">👥</span> Group Details</h2>
+                </div>
+                <div class="card-body">
+                    <div class="group-id-display">
+                        <div class="group-id-section">
+                            <label>Group ID:</label>
+                            <div class="group-id-wrapper">
+                                <span id="group-id-text" class="group-id"></span>
+                                <button id="copy-group-id" class="btn btn-sm btn-outline">
+                                    <span class="icon">📋</span>
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                        <small class="form-help">Share this ID with others to let them join your group</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members Section -->
+            <section id="members-section" class="card members-card" style="display: none;">
+                <div class="card-header">
+                    <h2><span class="icon">👤</span> Add Members</h2>
+                    <p class="section-subtitle">Add people who will participate in group expenses</p>
+                </div>
+                <div class="card-body">
+                    <form id="member-form" class="member-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="member-name">
+                                    <span class="icon">👤</span>
+                                    Full Name
+                                </label>
+                                <input type="text" id="member-name" placeholder="Enter member's full name" required maxlength="30">
+                            </div>
+                            <div class="form-group">
+                                <label for="member-upi">
+                                    <span class="icon">💳</span>
+                                    UPI ID
+                                </label>
+                                <input type="text" id="member-upi" placeholder="username@bankname" required maxlength="50">
+                                <small class="form-help">Format: username@paytm, phone@ybl, etc.</small>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="icon">➕</span>
+                                    Add Member
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div id="members-list" class="members-list">
+                        <!-- Members will be displayed here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Enhanced Expenses Section -->
+            <section id="expenses-section" class="card expenses-card" style="display: none;">
+                <div class="card-header">
+                    <h2><span class="icon">💸</span> Add Expenses (Individual Contributions)</h2>
+                    <p class="section-subtitle">Enter how much each member paid for this expense</p>
+                </div>
+                <div class="card-body">
+                    <form id="expense-form" class="expense-form">
+                        <div class="form-group">
+                            <label for="expense-description">
+                                <span class="icon">📝</span>
+                                Expense Description
+                            </label>
+                            <input type="text" id="expense-description" placeholder="e.g., Dinner at restaurant, Movie tickets, Uber ride" required maxlength="100">
+                        </div>
+                        
+                        <div class="member-payments-section">
+                            <h3 class="payments-header">
+                                <span class="icon">💰</span>
+                                Individual Payments
+                            </h3>
+                            <div id="member-payments-container" class="member-payments-grid">
+                                <!-- Member payment inputs will be generated here dynamically -->
+                            </div>
+                            <div class="expense-summary">
+                                <div class="total-display">
+                                    Total Expense: <span id="expense-total">₹0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" id="clear-amounts" class="btn btn-outline">
+                                <span class="icon">🧹</span>
+                                Clear All Amounts
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <span class="icon">➕</span>
+                                Add Expense
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div id="expenses-list" class="expenses-list">
+                        <!-- Expenses will be displayed here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Summary Section -->
+            <section id="summary-section" class="card summary-card" style="display: none;">
+                <div class="card-header">
+                    <h2><span class="icon">📊</span> Expense Summary</h2>
+                </div>
+                <div class="card-body">
+                    <div class="summary-stats">
+                        <div class="stat-item total-stat">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-content">
+                                <span class="stat-label">Total Expenses</span>
+                                <span class="stat-value" id="total-expenses">₹0.00</span>
+                            </div>
+                        </div>
+                        <div class="stat-item share-stat">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-content">
+                                <span class="stat-label">Per Person Share</span>
+                                <span class="stat-value" id="per-person-share">₹0.00</span>
+                            </div>
+                        </div>
+                        <div class="stat-item members-stat">
+                            <div class="stat-icon">🧑‍🤝‍🧑</div>
+                            <div class="stat-content">
+                                <span class="stat-label">Total Members</span>
+                                <span class="stat-value" id="total-members">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settlements Section -->
+            <section id="settlements-section" class="card settlements-card" style="display: none;">
+                <div class="card-header">
+                    <h2><span class="icon">💳</span> Settlement Payments</h2>
+                    <div class="header-actions">
+                        <button id="calculate-settlements" class="btn btn-primary">
+                            <span class="icon">🧮</span>
+                            Calculate Settlements
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="settlements-list" class="settlements-list">
+                        <!-- Settlements will be displayed here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading-overlay" style="display: none;">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p class="loading-text">Processing...</p>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

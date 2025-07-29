@@ -1,0 +1,39 @@
+{
+    "name": "rupaya-share",
+    "version": "1.0.0",
+    "description": "Enhanced UPI Split Payment App with Individual Contributions",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app.js",
+        "build": "npm install",
+        "render-build": "npm install",
+        "deploy": "gh-pages -d public",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.6.1",
+        "express": "^4.21.2",
+        "qrcode": "^1.5.4",
+        "uuid": "^9.0.1"
+    },
+    "devDependencies": {
+        "gh-pages": "^6.3.0",
+        "nodemon": "^3.0.1"
+    },
+    "keywords": [
+        "upi",
+        "expense-splitting",
+        "payments",
+        "qr-code",
+        "india"
+    ],
+    "author": "RupayaShare Team",
+    "license": "MIT",
+    "type": "commonjs",
+    "engines": {
+        "node": ">=14.0.0",
+        "npm": ">=6.0.0"
+    }
+}
